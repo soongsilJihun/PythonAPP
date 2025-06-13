@@ -39,24 +39,27 @@ def build_budget_screen(root, show_frame_callback, main_frame):
         label.pack(anchor="w", padx=5)
         value_labels[field] = label
 
-    def submit():
-        for f in fields:
-            val = entries[f].get().strip()
-            if val != "":
-                if not val.isdigit():
-                    messagebox.showerror("입력 오류", f"'{f}' 항목에는 숫자만 입력해주세요.")
-                    return  # 하나라도 오류가 있으면 저장 중단
-                global_state.budget_data[f] = val
+        def submit():
+            for f in fields:
+                val = entries[f].get().strip()
+                if val != "":
+                    if not val.isdigit():
+                        messagebox.showerror("입력 오류", f"'{f}' 항목에는 숫자만 입력해주세요.")
+                        return  # 하나라도 오류가 있으면 저장 중단
+                    global_state.budget_data[f] = val
 
-            budget_val = global_state.budget_data.get(f, "없음")
-            spend_val = global_state.spending_data.get(f, 0)
+                budget_val = global_state.budget_data.get(f, "없음")
+                spend_val = global_state.spending_data.get(f, 0)
 
-            label_text = f"(현재: {budget_val} / 사용: {spend_val})"
-            label_color = "red" if is_over_budget(f, budget_val, spend_val) else "gray"
-            value_labels[f].config(text=label_text, fg=label_color)
+                label_text = f"(현재: {budget_val} / 사용: {spend_val})"
+                label_color = "red" if is_over_budget(f, budget_val, spend_val) else "gray"
+                value_labels[f].config(text=label_text, fg=label_color)
 
-        messagebox.showinfo("저장 완료", "예산이 저장되었습니다.")
-        print("[예산 업데이트]", global_state.budget_data)
+            # ✅ txt 파일로 저장
+            global_state.save_dict_to_txt(global_state.budget_data, "budget_data.txt")
+
+            messagebox.showinfo("저장 완료", "예산이 저장되었습니다.")
+            print("[예산 업데이트]", global_state.budget_data)
 
     tk.Button(frame, text="확인", command=submit).pack(pady=10)
     tk.Button(frame, text="뒤로가기", command=lambda: show_frame_callback(main_frame)).pack()
