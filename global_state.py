@@ -21,7 +21,7 @@ def load_dict_from_txt(file_path):
 def save_dict_to_txt(data, file_path):
     """
     함수명: save_dict_to_txt
-    역할: 딕셔너리를 사람이 보기 좋도록 JSON 형식으로 텍스트 파일에 저장
+    역할: 딕셔너리를 사람이 보기 좋도록 딕셔너리 형식으로 텍스트 파일에 저장
     매개변수:
         data (dict): 저장할 딕셔너리 데이터
         file_path (str): 저장할 파일 경로
